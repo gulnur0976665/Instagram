@@ -27,7 +27,7 @@ export const SessionProvider: FC<SessionProviderProps> = ({ children }) => {
           localStorage.setItem("tokens", JSON.stringify(data));
           window.location.reload();
         } else {
-          console.log("refreshToken живой!");
+          console.log("refreshToken активдүү!");
         }
       }
     }
