@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { FC, ReactNode, useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { useGetMeQuery, useRefreshTokenMutation } from "@/redux/api/auth";
@@ -14,19 +14,21 @@ export const SessionProvider: FC<SessionProviderProps> = ({ children }) => {
   const router = useRouter();
 
   const handleRefreshToken = async () => {
-    const localStorageData = JSON.parse(localStorage.getItem("tokens")!);
-    if (localStorageData === "undefined" || localStorageData === undefined) {
-      localStorage.removeItem("tokens");
-    }
-    if (localStorageData) {
-      const { accessTokenExpiration, refreshToken } = localStorageData;
-      if (accessTokenExpiration < new Date().getTime()) {
+    if (typeof window !== "undefined") {
+      const localStorageData = JSON.parse(localStorage.getItem("tokens")!);
+      if (localStorageData === "undefined" || localStorageData === undefined) {
         localStorage.removeItem("tokens");
-        const { data } = await refreshTokenMutation({ refreshToken });
-        localStorage.setItem("tokens", JSON.stringify(data));
-        window.location.reload();
-      } else {
-        console.log("refreshToken живой!");
+      }
+      if (localStorageData) {
+        const { accessTokenExpiration, refreshToken } = localStorageData;
+        if (accessTokenExpiration < new Date().getTime()) {
+          localStorage.removeItem("tokens");
+          const { data } = await refreshTokenMutation({ refreshToken });
+          localStorage.setItem("tokens", JSON.stringify(data));
+          window.location.reload();
+        } else {
+          console.log("refreshToken живой!");
+        }
       }
     }
   };
@@ -60,5 +62,5 @@ export const SessionProvider: FC<SessionProviderProps> = ({ children }) => {
     handleNavigation();
   }, [status, pathname, router]);
 
-  return children;
+  return <>{children}</>;
 };
