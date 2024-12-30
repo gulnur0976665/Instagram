@@ -1,0 +1,200 @@
+.Reels {
+  position: absolute;
+  top: 20px;
+  margin-left: 40%;
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+    scrollbar-width: none;
+
+    .videoContainer {
+      display: flex;
+      align-items: end;
+      video {
+        border-radius: 8px;
+        width: 400px;
+        height: 650px;
+      }
+      .icons {
+        margin-bottom: 30px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        font-size: 22px;
+        .iconText {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 7px;
+          span {
+            font-size: 10px;
+            display: flex;
+            gap: 4px;
+          }
+        }
+      }
+    }
+  }
+  @media (max-width: 1280px) {
+    .content {
+      .videoContainer {
+        video {
+          height: 780px;
+        }
+      }
+    }
+  }
+  @media (max-width: 1115px) {
+    .content {
+      .videoContainer {
+        video {
+          height: 600px;
+        }
+      }
+    }
+  }
+  @media (max-width: 1115px) {
+    .content {
+      .videoContainer {
+        video {
+          height: 600px;
+        }
+      }
+    }
+  }
+  @media (max-width: 884px) {
+    margin-left: 150px;
+    .content {
+      margin-bottom: 60px;
+      .videoContainer {
+        position: relative;
+        gap: 20px;
+        video {
+          width: 600px;
+          height: 1000px;
+        }
+        .icons {
+          position: absolute;
+          bottom: 60px;
+          right: 0;
+        }
+      }
+    }
+  }
+  @media (max-width: 835px) {
+    margin-left: 150px;
+    .content {
+      margin-bottom: 60px;
+      .videoContainer {
+        position: relative;
+        gap: 20px;
+        video {
+          width: 600px;
+          height: 1070px;
+        }
+        .icons {
+          position: absolute;
+          bottom: 60px;
+          right: 0;
+        }
+      }
+    }
+  }
+  @media (max-width: 820px) {
+    margin-left: 150px;
+    .content {
+      margin-bottom: 60px;
+      .videoContainer {
+        position: relative;
+        gap: 20px;
+        video {
+          width: 590px;
+          height: 1065px;
+        }
+        .icons {
+          position: absolute;
+          bottom: 60px;
+          right: 0;
+        }
+      }
+    }
+  }
+  @media (max-width: 800px) {
+    margin-left: 120px;
+    .content {
+      margin-bottom: 60px;
+      .videoContainer {
+        position: relative;
+        gap: 20px;
+        video {
+          width: 600px;
+          height: 1180px;
+        }
+        .icons {
+          position: absolute;
+          bottom: 60px;
+          right: 0;
+          font-size: 32px;
+        }
+      }
+    }
+  }
+  @media (max-width: 768px) {
+    margin-left: 150px;
+    .content {
+      margin-bottom: 60px;
+      .videoContainer {
+        position: relative;
+        gap: 20px;
+        video {
+          width: 540px;
+          height: 990px;
+        }
+        .icons {
+          position: absolute;
+          bottom: 60px;
+          right: 0;
+        }
+      }
+    }
+  }
+  @media (max-width: 428px) {
+    margin-left: 0;
+    .content {
+      margin-bottom: 60px;
+      .videoContainer {
+        position: relative;
+        video {
+          width: 388px;
+          height: 640px;
+        }
+        .icons {
+          position: absolute;
+          bottom: 30px;
+          right: 0;
+        }
+      }
+    }
+  }
+  @media (max-width: 391px) {
+    margin-left: 0;
+    .content {
+      margin-bottom: 60px;
+      .videoContainer {
+        position: relative;
+        video {
+          width: 350px;
+          height: 590px;
+        }
+        .icons {
+          position: absolute;
+          bottom: 30px;
+          right: 0;
+        }
+      }
+    }
+  }
+}

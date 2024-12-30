@@ -1,0 +1,56 @@
+.Loader {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #000;
+  position: relative;
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    .img {
+      width: 80px;
+      height: auto;
+      margin-bottom: 20px;
+    }
+
+    .text {
+      position: absolute;
+      bottom: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+      p {
+        color: #888;
+        font-size: 14px;
+        margin: 0;
+      }
+
+      a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        gap: 5px;
+
+        svg {
+          color: #ff0062d5;
+          font-size: 20px;
+        }
+
+        h4 {
+          margin: 0;
+          color: #ff005de0;
+          font-size: 16px;
+          font-weight: 600;
+          font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+        }
+      }
+    }
+  }
+}

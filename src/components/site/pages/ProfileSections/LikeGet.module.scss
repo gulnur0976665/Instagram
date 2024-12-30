@@ -1,0 +1,75 @@
+.modalLike {
+  span {
+    font-size: 15px;
+  }
+}
+
+.ModalOPen {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 370px;
+  max-height: 80vh;
+  background: #2c2c2c;
+  color: #fff;
+  border-radius: 8px;
+  overflow-y: auto;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+
+  .block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .close {
+      position: relative;
+      padding: 0 10px;
+      width: 370px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      a {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        font-size: 25px;
+      }
+    }
+    hr {
+      width: 100%;
+      border: 1px solid rgb(76, 76, 76);
+    }
+    p {
+      padding: 10px 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: rgb(188, 188, 188);
+    }
+  }
+
+  .likedUser {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 16px;
+    .textImg {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      img {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+      }
+    }
+    button {
+      padding: 4px 10px;
+      background: rgb(7, 153, 250);
+      border: none;
+      border-radius: 4px;
+    }
+  }
+}

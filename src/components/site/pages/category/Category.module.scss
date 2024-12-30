@@ -1,0 +1,116 @@
+.Category {
+  .content {
+    position: fixed;
+    top: 0;
+    left: 30px;
+    width: 250px;
+    display: flex;
+    gap: 50px;
+    .block {
+      margin-top: 35px;
+      display: flex;
+      flex-direction: column;
+      gap: 39px;
+      h1 {
+        font-family: "Times New Roman", Times, serif;
+        font-size: 28px;
+        cursor: pointer;
+        .ison {
+          display: none;
+        }
+      }
+      a {
+        display: none;
+        font-size: 26px;
+      }
+      .icons {
+        display: flex;
+        flex-direction: column;
+        gap: 35px;
+        a {
+          color: white;
+          display: flex;
+          align-items: center;
+          gap: 20px;
+          .ison {
+            width: 25px;
+            height: 25px;
+          }
+          span {
+            font-weight: 500;
+          }
+        }
+        .user {
+          display: flex;
+          align-items: center;
+          gap: 20px;
+          cursor: pointer;
+          img {
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+          }
+        }
+      }
+    }
+    hr {
+      height: 100vh;
+      border: 0.5px solid rgb(29, 29, 29);
+    }
+  }
+  @media (max-width: 1280px) {
+    .content {
+      gap: 25px;
+      .block {
+        gap: 50px;
+        .icons {
+          gap: 40px;
+          a {
+            span {
+              font-weight: 100;
+              font-size: 14px;
+            }
+          }
+        }
+      }
+    }
+  }
+  @media (max-width: 1115px) {
+    .content {
+      gap: 10px;
+      .block {
+        .icons {
+          gap: 20px;
+        }
+      }
+    }
+  }
+  @media (max-width: 884px) {
+    .content {
+      width: 0;
+      gap: 15px;
+      .block {
+        gap: 90px;
+        h1 {
+          display: none;
+        }
+        a {
+          display: flex;
+        }
+        .icons {
+          gap: 50px;
+          span {
+            display: none;
+          }
+        }
+      }
+    }
+  }
+  @media (max-width: 428px) {
+    .content {
+     display: none;
+     left: 0;
+     width: 0;
+    }
+  }
+}
