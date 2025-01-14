@@ -5,8 +5,12 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useResetPasswordMutation } from "@/redux/api/auth";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { HiOutlineLockClosed } from "react-icons/hi2";
+import dynamic from "next/dynamic";
 
-const Reset: FC = () => {
+// Динамикалык импортту колдонобуз
+const Reset = dynamic(() => import("./Reset"), { ssr: false });
+
+const ResetPasswordForm: FC = () => {
   const {
     register,
     handleSubmit,
@@ -69,4 +73,5 @@ const Reset: FC = () => {
   );
 };
 
-export default Reset;
+// Динамикалык импортуңузду негизги компонентиңизге кайтаруу
+export default ResetPasswordForm;
