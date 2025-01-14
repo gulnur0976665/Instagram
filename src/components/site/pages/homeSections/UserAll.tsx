@@ -7,10 +7,9 @@ import { useGetMeQuery } from "@/redux/api/auth";
 
 const UserAll: FC = () => {
   const { data } = usePostGetAllQuery();
-  console.log("🚀 ~ data:", data)
   const router = useRouter();
   const { data: me } = useGetMeQuery();
- 
+
   const uniqueUsers = Array.from(
     new Map(data?.map((item) => [item.user.username, item.user])).values()
   );
@@ -23,7 +22,7 @@ const UserAll: FC = () => {
             <div
               onClick={() =>
                 router.push(
-                  Number(user.id) !== Number(me?.profile.id)
+                  Number(user.id) !== Number(me?.profile?.id)
                     ? `/profile/${user.id}`
                     : "/profile"
                 )

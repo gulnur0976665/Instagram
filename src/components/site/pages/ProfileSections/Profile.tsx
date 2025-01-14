@@ -9,7 +9,6 @@ import { RootState } from "@/redux/router";
 import { IoClose } from "react-icons/io5";
 import { deleteBacket } from "@/redux/createBacketSlice";
 import Modal from "./Modal";
-import { useGetMeQuery } from "@/redux/api/auth";
 import { useRouter } from "next/navigation";
 interface BacketItem {
   id: number;
@@ -36,15 +35,14 @@ const Profile: FC = () => {
   const { backet } = useSelector((s: RootState) => s.backet || { backet: [] });
   const dispatch = useDispatch();
   const [postDeleteMutation] = usePostDeleteMutation();
-  const { data: my, isLoading: isLoadPost } = usePostGetMyQuery();
-  const { data, isLoading, isSuccess } = useGetMeQuery();
+  const { data: my } = usePostGetMyQuery();
 
   useEffect(() => {
     const tokens = localStorage.getItem("tokens");
     if (!tokens) {
       router.push("/sign-in");
     }
-  }, []);
+  }, [router]);
 
   return (
     <section className={scss.Profile}>
@@ -56,7 +54,7 @@ const Profile: FC = () => {
           {!page && (
             <div className={scss.block}>
               {my?.map((el) => (
-                <div className={scss.closeBlock}>
+                <div key={el.id} className={scss.closeBlock}>
                   <div
                     onClick={() => {
                       setModalWindow(el);

@@ -10,13 +10,24 @@ import { useUploadFileMutation } from "@/redux/api/upload";
 import { usePostCreateMutation } from "@/redux/api/post";
 import { IoIosImages } from "react-icons/io";
 import Link from "next/link";
+
 const Header: FC = () => {
   const [modalWindow, setModalWindow] = useState<boolean>(false);
-  const { register, handleSubmit, reset } = useForm<POST.PostCreateRequest>();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<POST.PostCreateRequest>();
   const [uploadFileMutation] = useUploadFileMutation();
   const [postCreateMutation] = usePostCreateMutation();
 
   const sentTodo: SubmitHandler<POST.PostCreateRequest> = async (data) => {
+    if (!data.file) {
+      alert("Пожалуйста, выберите файл для загрузки.");
+      return;
+    }
+
     const selectedFile = data.file![0];
     const formData = new FormData();
     formData.append("file", selectedFile);
@@ -33,14 +44,16 @@ const Header: FC = () => {
       setModalWindow(false);
     } catch (error) {
       console.error(error);
+      alert("Ошибка при загрузке файла или создании публикации.");
     }
   };
+
   return (
     <section className={scss.Header}>
       <div className="container">
         <div className={scss.content}>
           <Link href="/">
-            <img src={logo.src} alt="" />
+            <img src={logo.src} alt="Logo" />
           </Link>
           <div className={scss.icons}>
             <FaRegPlusSquare
@@ -61,47 +74,63 @@ const Header: FC = () => {
           </div>
           {modalWindow && (
             <div className={scss.modalWindowBlock}>
-              {" "}
               <div className={scss.modalWindow}>
                 <div className={scss.publications}>
                   <h1>Создание публикации</h1>
                 </div>
                 <form onSubmit={handleSubmit(sentTodo)}>
                   <div className={scss.createPost}>
-                    <>
-                      <a
-                        style={{
-                          fontSize: "30px",
-                        }}
-                      >
-                        <IoIosImages />
-                      </a>
-                      <h1>Перетащите сюда фото и видео</h1>
-                      <div className={scss.wrapper}>
-                        <div className={scss.fileInputWrapper}>
-                          <button type="button">Выбрать на компьютере</button>
-                          <input
-                            type="file"
-                            {...register("file", { required: true })}
-                            className={scss.fileInput}
-                          />
-                        </div>
-                        <select {...register("mediaType", { required: true })}>
-                          <option value="PHOTO">PHOTO</option>
-                          <option value="VIDEO">VIDEO</option>
-                        </select>
-
-                        <textarea
-                          id="message"
-                          placeholder="Description"
-                          className={scss.inputField}
-                          {...register("caption", { required: true })}
-                        ></textarea>
-                        <button type="submit" className={scss.submitButton}>
-                          submit
-                        </button>
+                    <a
+                      style={{
+                        fontSize: "30px",
+                      }}
+                    >
+                      <IoIosImages />
+                    </a>
+                    <h1>Перетащите сюда фото и видео</h1>
+                    <div className={scss.wrapper}>
+                      <div className={scss.fileInputWrapper}>
+                        <button type="button">Выбрать на компьютере</button>
+                        <input
+                          type="file"
+                          {...register("file", {
+                            required: "Пожалуйста, выберите файл.",
+                          })}
+                          className={scss.fileInput}
+                        />
                       </div>
-                    </>
+                      {errors.file && (
+                        <p className={scss.error}>{errors.file.message}</p>
+                      )}
+
+                      <select
+                        {...register("mediaType", {
+                          required: "Выберите тип медиа.",
+                        })}
+                      >
+                        <option value="PHOTO">Фото</option>
+                        <option value="VIDEO">Видео</option>
+                      </select>
+                      {errors.mediaType && (
+                        <p className={scss.error}>{errors.mediaType.message}</p>
+                      )}
+
+                      <textarea
+                        id="message"
+                        placeholder="Описание"
+                        className={scss.inputField}
+                        {...register("caption", {
+                          required: "Пожалуйста, введите описание.",
+                        })}
+                      ></textarea>
+                      {errors.caption && (
+                        <p className={scss.error}>{errors.caption.message}</p>
+                      )}
+
+                      <button type="submit" className={scss.submitButton}>
+                        Опубликовать
+                      </button>
+                    </div>
                   </div>
                 </form>
               </div>

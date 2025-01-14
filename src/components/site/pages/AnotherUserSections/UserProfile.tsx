@@ -19,25 +19,28 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/router";
 import { addToBacket, deleteBacket } from "@/redux/createBacketSlice";
 import { FaBookmark } from "react-icons/fa";
+import Image from "next/image";
 
 const UserProfile: FC = () => {
   const { backet } = useSelector((s: RootState) => s.backet);
   const dispatch = useDispatch();
   const { id } = useParams();
-  const { data, isLoading } = usePostGetOtherQuery(+id);
+  const { data } = usePostGetOtherQuery(+id);
   const [page, setPage] = useState(false);
   const [modalWindow, setModalWindow] = useState<Post | null>(null);
   const [setting, setSetting] = useState<boolean>(false);
-  const [count, setCount] = useState(() => {
-    return parseInt(localStorage.getItem("count") || "0");
-  });
-  const [following, setFollowing] = useState(() => {
-    return localStorage.getItem("following") === "true";
-  });
+  const [count, setCount] = useState(() =>
+    parseInt(localStorage.getItem("count") || "0")
+  );
+  const [following, setFollowing] = useState(
+    () => localStorage.getItem("following") === "true"
+  );
   useEffect(() => {
     localStorage.setItem("count", count.toString());
     localStorage.setItem("following", following.toString());
   }, [count, following]);
+
+  const items = new Array(12).fill("star✨");
 
   return (
     <section className={scss.UserProfile}>
@@ -47,7 +50,7 @@ const UserProfile: FC = () => {
             <div className={scss.profile}>
               <div className={scss.left}>
                 <div className={scss.image}>
-                  <img
+                  <Image
                     width={180}
                     height={180}
                     src={data[0]?.user?.photo!}
@@ -104,96 +107,14 @@ const UserProfile: FC = () => {
             </div>
             <div className={scss.middle}>
               <div className={scss.current}>
-                <div className={scss.textadd}>
-                  <div className={scss.add}>
-                    <img src={study4.src} alt="study" className={scss.img} />
+                {items.map((item, index) => (
+                  <div className={scss.textadd} key={index}>
+                    <div className={scss.add}>
+                      <img src={study4.src} alt="study" className={scss.img} />
+                    </div>
+                    <p>{item}</p>
                   </div>
-                  <p>star✨</p>
-                </div>{" "}
-                <div className={scss.textadd}>
-                  <div className={scss.add}>
-                    <img src={study4.src} alt="study" className={scss.img} />
-                  </div>
-                  <p>star✨</p>
-                </div>{" "}
-                <div className={scss.textadd}>
-                  <div className={scss.add}>
-                    <img src={study4.src} alt="study" className={scss.img} />
-                  </div>
-                  <p>star✨</p>
-                </div>{" "}
-                <div className={scss.textadd}>
-                  <div className={scss.add}>
-                    <img src={study4.src} alt="study" className={scss.img} />
-                  </div>
-                  <p>star✨</p>
-                </div>{" "}
-                <div className={scss.textadd}>
-                  <div className={scss.add}>
-                    <img src={study4.src} alt="study" className={scss.img} />
-                  </div>
-                  <p>star✨</p>
-                </div>{" "}
-                <div className={scss.textadd}>
-                  <div className={scss.add}>
-                    <img src={study4.src} alt="study" className={scss.img} />
-                  </div>
-                  <p>star✨</p>
-                </div>{" "}
-                <div className={scss.textadd}>
-                  <div className={scss.add}>
-                    <img src={study4.src} alt="study" className={scss.img} />
-                  </div>
-                  <p>star✨</p>
-                </div>{" "}
-                <div className={scss.textadd}>
-                  <div className={scss.add}>
-                    <img src={study4.src} alt="study" className={scss.img} />
-                  </div>
-                  <p>star✨</p>
-                </div>{" "}
-                <div className={scss.textadd}>
-                  <div className={scss.add}>
-                    <img src={study4.src} alt="study" className={scss.img} />
-                  </div>
-                  <p>star✨</p>
-                </div>{" "}
-                <div className={scss.textadd}>
-                  <div className={scss.add}>
-                    <img src={study4.src} alt="study" className={scss.img} />
-                  </div>
-                  <p>star✨</p>
-                </div>{" "}
-                <div className={scss.textadd}>
-                  <div className={scss.add}>
-                    <img src={study4.src} alt="study" className={scss.img} />
-                  </div>
-                  <p>star✨</p>
-                </div>{" "}
-                <div className={scss.textadd}>
-                  <div className={scss.add}>
-                    <img src={study4.src} alt="study" className={scss.img} />
-                  </div>
-                  <p>star✨</p>
-                </div>{" "}
-                <div className={scss.textadd}>
-                  <div className={scss.add}>
-                    <img src={study4.src} alt="study" className={scss.img} />
-                  </div>
-                  <p>star✨</p>
-                </div>{" "}
-                <div className={scss.textadd}>
-                  <div className={scss.add}>
-                    <img src={study4.src} alt="study" className={scss.img} />
-                  </div>
-                  <p>star✨</p>
-                </div>{" "}
-                <div className={scss.textadd}>
-                  <div className={scss.add}>
-                    <img src={study4.src} alt="study" className={scss.img} />
-                  </div>
-                  <p>star✨</p>
-                </div>
+                ))}
               </div>
               <div className={scss.line}></div>
             </div>

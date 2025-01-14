@@ -8,7 +8,12 @@ import { usePostForgotMutation } from "@/redux/api/auth";
 
 const Forgot: FC = () => {
   const router = useRouter();
-  const { register, handleSubmit, reset } = useForm<AUTH.PostForgotRequest>();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<AUTH.PostForgotRequest>();
   const [postForgotMutation] = usePostForgotMutation();
 
   const onSubmit: SubmitHandler<AUTH.PostForgotRequest> = async (data) => {
@@ -17,12 +22,13 @@ const Forgot: FC = () => {
       frontEndUrl: window.location.href,
     };
     const { data: responseDate, error } = await postForgotMutation(newForgot);
-    console.log("🚀responseDate:", responseDate);
+
     if (responseDate) {
       alert(responseDate.message);
+      reset();
     } else {
       const messageError = error as { data: { message: string } };
-      alert(messageError.data.message);
+      alert(messageError?.data?.message || "Ошибка при восстановлении пароля");
     }
   };
 
@@ -42,12 +48,20 @@ const Forgot: FC = () => {
                 восстановления <br /> доступа к аккаунту.
               </p>
               <form onSubmit={handleSubmit(onSubmit)} className={scss.form}>
-                {" "}
                 <input
                   type="text"
                   placeholder="Эл. адрес, телефон или имя пользователя"
-                  {...register("email", { required: true })}
+                  {...register("email", {
+                    required: "Пожалуйста, введите свой электронный адрес.",
+                    pattern: {
+                      value: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
+                      message: "Введите правильный электронный адрес.",
+                    },
+                  })}
                 />
+                {errors.email && (
+                  <p className={scss.error}>{errors.email.message}</p>
+                )}{" "}
                 <button type="submit">Получить ссылку для входа</button>
               </form>
               <p>Не можете сбросить пароль?</p>

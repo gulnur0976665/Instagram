@@ -549,8 +549,8 @@
             width: 90px;
             height: 90px;
             img {
-              width: 30%;
-              height: 30%;
+              width: 90%;
+              height: 90%;
             }
           }
         }
@@ -593,8 +593,8 @@
         width: 100%;
       }
       .postsText {
-        width: 330px;
-        gap: 25px;
+        width: 350px;
+        gap: 35px;
         .link {
           .icon {
             display: none;
@@ -674,6 +674,77 @@
       .settingModal {
         .settingBlock {
           width: 350px;
+        }
+      }
+    }
+  }
+  @media (max-width: 360px) {
+    .content {
+      width: 300px;
+      .profile {
+        height: 220px;
+        .left {
+          .image {
+            width: 90px;
+            height: 90px;
+            img {
+              width: 90%;
+              height: 90%;
+            }
+          }
+        }
+        .right {
+          .userData {
+            gap: 10px;
+            .btns {
+              display: flex;
+              gap: 10px;
+              button {
+                width: 190px;
+                height: 25px;
+                font-size: 10px;
+              }
+              a {
+                font-size: 20px;
+              }
+            }
+          }
+          .folowers {
+            p {
+              font-weight: 600;
+              font-size: 10px;
+            }
+          }
+          .description {
+            p {
+              font-size: 13px;
+            }
+          }
+        }
+      }
+
+      .postsText {
+        width: 330px;
+        gap: 35px;
+        .link {
+          .icon {
+            display: none;
+          }
+          span {
+            font-size: 13px;
+          }
+        }
+      }
+      .blockUpdate {
+        .upDate {
+          width: 280px;
+        }
+      }
+      .settingModal {
+        .settingBlock {
+          width: 280px;
+          gap: 10px;
+          font-size: 15px;
         }
       }
     }

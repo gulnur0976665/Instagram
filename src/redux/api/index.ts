@@ -7,16 +7,17 @@ import {
 const baseQuery = fetchBaseQuery({
   baseUrl: `${process.env.NEXT_PUBLIC_API_URL}`,
   prepareHeaders: (headers) => {
-    const localStorageData = localStorage.getItem("tokens");
-
-    if (localStorageData) {
-      const { accessToken } = JSON.parse(localStorageData);
-
-      if (accessToken) {
-        headers.set("Authorization", `Bearer ${accessToken}`);
+    try {
+      const localStorageData = localStorage.getItem("tokens");
+      if (localStorageData) {
+        const { accessToken } = JSON.parse(localStorageData);
+        if (accessToken) {
+          headers.set("Authorization", `Bearer ${accessToken}`);
+        }
       }
+    } catch (error) {
+      console.error("Failed to parse tokens from localStorage:", error);
     }
-
     return headers;
   },
 });

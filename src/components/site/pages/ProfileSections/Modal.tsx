@@ -12,6 +12,7 @@ import { RootState } from "@/redux/router";
 import { FaBookmark } from "react-icons/fa";
 import { addToBacket, deleteBacket } from "@/redux/createBacketSlice";
 import { useGetMeQuery } from "@/redux/api/auth";
+import Image from "next/image";
 
 interface IModal {
   modalWindow: any;
@@ -19,11 +20,9 @@ interface IModal {
 }
 
 const Modal: FC<IModal> = ({ modalWindow, setModalWindow }) => {
-  const { backet } = useSelector(
-    (state: RootState) => state.backet || { backet: [] }
-  );
+  const { backet } = useSelector((state: RootState) => state.backet);
   const dispatch = useDispatch();
-  const { data, isLoading, isSuccess } = useGetMeQuery();
+  const { data, isLoading } = useGetMeQuery();
 
   const handleBookmarkClick = () => {
     modalWindow &&
@@ -47,6 +46,7 @@ const Modal: FC<IModal> = ({ modalWindow, setModalWindow }) => {
               controls
               width="100%"
               height="100%"
+              playing={isLoading === false}
             />
           </div>
         )}
@@ -55,8 +55,12 @@ const Modal: FC<IModal> = ({ modalWindow, setModalWindow }) => {
         <div className={scss.textAll}>
           <div className={scss.textProfile}>
             <div className={scss.text}>
-              <img src={modalWindow.photo} alt="User Photo" width={50} />
-              <h4>{modalWindow.username}</h4>
+              <img
+                src={data?.profile?.photo || "/default-image.jpg"}
+                alt="User Photo"
+                width={50}
+              />
+              <h4>{data?.profile.username}</h4>
               <div className={scss.dot}></div>
               <h5>Подписаться</h5>
             </div>
@@ -67,9 +71,13 @@ const Modal: FC<IModal> = ({ modalWindow, setModalWindow }) => {
 
           <div className={scss.line}></div>
           <div className={scss.textCaption}>
-            <img src={modalWindow.photo} alt="User Photo" />
+            <img
+              src={data?.profile?.photo || "/default-image.jpg"}
+              alt="User Photo"
+              width={50}
+            />
             <div className={scss.caption}>
-              <h4>{modalWindow.username}</h4>
+              <h4>{data?.profile.username}</h4>
               <p>{modalWindow.caption}</p>
             </div>
           </div>
@@ -84,15 +92,15 @@ const Modal: FC<IModal> = ({ modalWindow, setModalWindow }) => {
                   <BsSend />
                 </div>
               </div>
-              <a onClick={handleBookmarkClick} className={scss.icon}>
+              <button onClick={handleBookmarkClick} className={scss.icon}>
                 {backet.some(
-                  (item: { id: number }) => item.id === modalWindow.id
+                  (item: { id: any }) => item.id === modalWindow.id
                 ) ? (
                   <FaBookmark />
                 ) : (
                   <BsBookmark />
                 )}
-              </a>
+              </button>
             </div>
             {modalWindow && <LikeGet el={modalWindow} />}
             <p className={scss.newDate}>

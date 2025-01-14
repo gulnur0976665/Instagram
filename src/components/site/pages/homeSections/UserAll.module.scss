@@ -79,4 +79,10 @@
       background: rgb(11, 11, 11);
     }
   }
+  @media (max-width: 415px) {
+    margin-left: 35px;
+    .content {
+      width: 100%;
+    }
+  }
 }

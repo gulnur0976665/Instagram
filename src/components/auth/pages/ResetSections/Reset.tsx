@@ -2,25 +2,35 @@
 import { FC } from "react";
 import scss from "./Reset.module.scss";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useResetPassfordMutation } from "@/redux/api/auth";
+import { useResetPasswordMutation } from "@/redux/api/auth";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { HiOutlineLockClosed } from "react-icons/hi2";
 
-const reset: FC = () => {
-  const { register, handleSubmit, reset } =
-    useForm<AUTH.PatchResetPasswordRequest>();
+const Reset: FC = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<AUTH.PatchResetPasswordRequest>();
   const router = useRouter();
-  const [resetPassfordMutation] = useResetPassfordMutation();
+  const [resetPasswordMutation] = useResetPasswordMutation();
   const searchParams = useSearchParams();
   const token = searchParams.get("token") || "";
+
   const onSubmit: SubmitHandler<AUTH.PatchResetPasswordRequest> = async (
     data
   ) => {
+    if (!token) {
+      alert("Token not found");
+      return;
+    }
+
     const newReset = {
       token: token!,
       newPassword: data.newPassword,
     };
-    const { data: responseData, error } = await resetPassfordMutation(newReset);
+
+    const { data: responseData, error } = await resetPasswordMutation(newReset);
     if (responseData) {
       alert(responseData.message);
       router.push("/auth/sign-in");
@@ -29,6 +39,7 @@ const reset: FC = () => {
       alert(messageError.data.message);
     }
   };
+
   return (
     <section className={scss.reset}>
       <div className="container">
@@ -40,9 +51,16 @@ const reset: FC = () => {
             <p>Reset-password</p>
             <input
               placeholder="new password"
-              type="text"
-              {...register("newPassword", { required: true })}
+              type="password"
+              {...register("newPassword", {
+                required: true,
+                minLength: {
+                  value: 6,
+                  message: "Пароль 6 символдон болбошу керек",
+                },
+              })}
             />
+            {errors.newPassword && <p>{errors.newPassword.message}</p>}{" "}
             <button type="submit">Сбросить пароль</button>
           </form>
         </div>
@@ -51,4 +69,4 @@ const reset: FC = () => {
   );
 };
 
-export default reset;
+export default Reset;

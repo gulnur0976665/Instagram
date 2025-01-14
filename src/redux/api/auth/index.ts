@@ -53,7 +53,7 @@ const api = index.injectEndpoints({
         invalidatesTags: ["auth"],
       }
     ),
-    resetPassford: build.mutation<
+    resetPassword: build.mutation<
       AUTH.PatchResetPasswordResponse,
       AUTH.PatchResetPasswordRequest
     >({
@@ -64,6 +64,7 @@ const api = index.injectEndpoints({
       }),
       invalidatesTags: ["auth"],
     }),
+
     updateProfile: build.mutation<
       AUTH.updateProfileResponse,
       AUTH.updateProfileRequest
@@ -71,7 +72,7 @@ const api = index.injectEndpoints({
       query: (body) => ({
         url: `/auth/update-profile`,
         method: "PATCH",
-        body, 
+        body,
       }),
       invalidatesTags: ["auth"],
     }),
@@ -85,6 +86,6 @@ export const {
   useLogoutMutation,
   useRefreshTokenMutation,
   usePostForgotMutation,
-  useResetPassfordMutation,
+  useResetPasswordMutation,
   useUpdateProfileMutation,
 } = api;

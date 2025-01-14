@@ -28,11 +28,8 @@ interface HomePostProps {
 }
 
 const LikeGet: FC<HomePostProps> = ({ el }) => {
-  const { data, isLoading, error } = useGetLikeQuery(el.id);
+  const { data } = useGetLikeQuery(el.id);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-
-  if (isLoading) return <p>Загрузка...</p>;
-  if (error) return <p>Ошибка загрузки данных.</p>;
 
   return (
     <>
@@ -49,7 +46,7 @@ const LikeGet: FC<HomePostProps> = ({ el }) => {
           )}
         </h3>
       )}
-      {isModalOpen ? (
+      {isModalOpen && (
         <div className={scss.ModalOPen}>
           <div className={scss.block}>
             <div className={scss.close}>
@@ -64,17 +61,22 @@ const LikeGet: FC<HomePostProps> = ({ el }) => {
               "Нравится" получила эта публикация.
             </p>
           </div>
-          {data?.likedUsers.map((user) => (
-            <div key={user?.username || user.id} className={scss.likedUser}>
+          {data?.likedUsers?.map((user) => (
+            <div key={user?.id || user?.username} className={scss.likedUser}>
               <div className={scss.textImg}>
-                <img src={user?.photo || ""} alt={user?.username || ""} />
+                <img
+                  src={user?.photo || ""}
+                  alt={user?.username || ""}
+                  width={50}
+                  height={50}
+                />
                 <p>{user?.username || ""}</p>
               </div>
               <button>Подписаться</button>
             </div>
           ))}
         </div>
-      ) : null}
+      )}
     </>
   );
 };

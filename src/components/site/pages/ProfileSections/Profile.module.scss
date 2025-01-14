@@ -516,4 +516,33 @@
       }
     }
   }
+  @media (max-width: 360px) {
+    .content {
+      .block {
+        .closeBlock {
+          .blockImg {
+            .Image {
+              width: 310px;
+            }
+          }
+          a {
+            right: 0;
+          }
+        }
+      }
+      .block1 {
+        .closeBlock {
+          position: relative;
+          .item1 {
+            img {
+              width: 310px;
+            }
+          }
+          a {
+            right: 0;
+          }
+        }
+      }
+    }
+  }
 }

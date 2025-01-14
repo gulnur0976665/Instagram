@@ -14,8 +14,13 @@ export const CreateBacketSlice = createSlice({
       localStorage.setItem("backet", JSON.stringify(backet));
     },
     deleteBacket(state, action) {
-      let filterBacket = state.backet.filter(
-        (el: { id: number }) => el.id !== action.payload
+      const id = action.payload;
+      if (typeof id !== "number") {
+        console.error("Invalid payload for deleteBacket:", id);
+        return;
+      }
+      const filterBacket = state.backet.filter(
+        (el: { id: number }) => el.id !== id
       );
       state.backet = filterBacket;
       localStorage.setItem("backet", JSON.stringify(filterBacket));

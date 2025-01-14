@@ -3,14 +3,12 @@ import scss from "./BurgerButton.module.scss";
 import { SlSettings } from "react-icons/sl";
 import { GoMoon } from "react-icons/go";
 import { FaThreads } from "react-icons/fa6";
-import { useRouter } from "next/navigation";
 import { useLogoutMutation } from "@/redux/api/auth";
 import { HiBars3, HiOutlineBookmark } from "react-icons/hi2";
 import { BiMessageAltError, BiMoviePlay } from "react-icons/bi";
 import { MdOutlineBrokenImage } from "react-icons/md";
 
 const BurgerButton: FC = () => {
-  const router = useRouter();
   const [burgerButtons, setBurgerButtons] = useState<boolean>(false);
   const [logoutMutation] = useLogoutMutation();
   const logout = async () => {

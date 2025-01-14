@@ -1,35 +1,39 @@
 "use client";
-import { FC, useState } from "react";
-import scss from "./SignUp.module.scss";
+import { FC } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
+import scss from "./SignUp.module.scss";
 import { FaFacebookSquare } from "react-icons/fa";
 import { useSignUpMutation } from "@/redux/api/auth";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { useForm, SubmitHandler } from "react-hook-form";
 import btn1 from "../../../../assets/image/btn1.png";
 import btn2 from "../../../../assets/image/btn2.png";
+
 interface IFormInput {
   email: string;
   password: string;
   username: string;
   photo: string;
 }
+
 const SignUp: FC = () => {
   const router = useRouter();
   const [signUpMutation] = useSignUpMutation();
-  const { register, handleSubmit } = useForm<IFormInput>();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<IFormInput>();
 
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     try {
-      const { data: responseData, error } = await signUpMutation(data);
-      if (responseData) {
-        localStorage.setItem("tokens", JSON.stringify(responseData));
-        window.location.reload();
-      } else {
-        const errorMessage = error as { data: { message: string } };
-        alert(errorMessage.data.message);
+      const result = await signUpMutation(data).unwrap();
+      if (result) {
+        localStorage.setItem("tokens", JSON.stringify(result));
+        router.push("/");
       }
-    } catch (e) {
-      console.log(e);
+    } catch (error: any) {
+      alert(error.data?.message || "Каттоо учурунда ката кетти");
     }
   };
 
@@ -45,7 +49,6 @@ const SignUp: FC = () => {
                 <br /> смотреть фото и видео ваших <br /> друзей.
               </p>
               <button>
-                {" "}
                 <FaFacebookSquare className={scss.icons} />
                 Войти через Facebook
               </button>
@@ -68,27 +71,51 @@ const SignUp: FC = () => {
                       },
                     })}
                   />
+                  {errors.email && (
+                    <p className={scss.error}>{errors.email.message}</p>
+                  )}
+
+                  <input
+                    type="password"
+                    placeholder="Пароль"
+                    {...register("password", {
+                      required: true,
+                      minLength: {
+                        value: 6,
+                        message: "Пароль 6 символ болушу керек",
+                      },
+                    })}
+                  />
+                  {errors.password && (
+                    <p className={scss.error}>{errors.password.message}</p>
+                  )}
 
                   <input
                     type="text"
-                    placeholder="Пароль"
-                    {...register("password", { required: true })}
-                  />
-                  <input
-                    type="text"
                     placeholder="Имя и фамилия"
-                    {...register("username", { required: true })}
+                    {...register("username", {
+                      required: true,
+                    })}
                   />
+                  {errors.username && (
+                    <p className={scss.error}>{errors.username.message}</p>
+                  )}
+
                   <input
                     type="text"
-                    placeholder="photo"
-                    {...register("photo", { required: true })}
+                    placeholder="Photo"
+                    {...register("photo", {
+                      required: true,
+                    })}
                   />
+                  {errors.photo && (
+                    <p className={scss.error}>{errors.photo.message}</p>
+                  )}
                 </div>
                 <div className={scss.text}>
                   <p className={scss.pragrav}>
                     Люди, которые пользуются нашим сервисом, <br /> могли
-                    загрузить вашу контактную информацию <br /> в Instagram.
+                    загрузить вашу контактную информацию <br /> в Instagram.{" "}
                     <a href="https://www.facebook.com/help/instagram">
                       Подробнее
                     </a>
@@ -96,18 +123,15 @@ const SignUp: FC = () => {
                   <p className={scss.pragrav}>
                     Регистрируясь, вы принимаете наши{" "}
                     <a href="https://help.instagram.com/581066165581870/?locale=ru_RU">
-                      {" "}
                       Условия,
                     </a>{" "}
                     <br />
                     <a href="https://www.facebook.com/privacy/policy">
-                      {" "}
                       Политику конфиденциальности
                     </a>{" "}
                     и{" "}
                     <a href="https://privacycenter.instagram.com/policies/cookies/">
-                      Политику в
-                      <br /> отношении файлов cookie.
+                      Политику в отношении файлов cookie.
                     </a>
                   </p>
                 </div>
@@ -124,18 +148,17 @@ const SignUp: FC = () => {
           <div className={scss.block3}>
             <p>Установите приложение.</p>
             <div className={scss.imgs}>
-              <img
+              <Image
+                src={btn1}
+                alt="Google Play Button"
                 onClick={() =>
                   window.open(
-                    "https://play.google.com/store/apps/details?id=com.instagram.android&referrer=ig_mid%3D19DB2FA4-BC54-4828-B0E5-680D5D5F93DB%26utm_campaign%3DunifiedHome%26utm_content%3Dlo%26utm_source%3Dinstagramweb%26utm_medium%3Dbadge%26original_referrer%3Dhttps%3A%2F%2Fwww.instagram.com%2Fturdumamatovam.5%2Fsaved%2F",
+                    "https://play.google.com/store/apps/details?id=com.instagram.android",
                     "_blank"
                   )
                 }
-                src={btn1.src}
-                alt="Google Play Button"
               />
-
-              <img src={btn2.src} alt="" />
+              <Image src={btn2} alt="App Store Button" />
             </div>
           </div>
         </div>

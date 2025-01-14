@@ -13,6 +13,7 @@ import { BiDotsHorizontalRounded } from "react-icons/bi";
 import ReactPlayer from "react-player";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/router";
+import Image from "next/image";
 
 const Interesting: FC = () => {
   const { backet } = useSelector((s: RootState) => s.backet);
@@ -76,7 +77,7 @@ const Interesting: FC = () => {
 
                 <div className={scss.line}></div>
                 <div className={scss.textCaption}>
-                  <img
+                  <Image
                     width={180}
                     height={180}
                     src={modalWindow.user.photo}

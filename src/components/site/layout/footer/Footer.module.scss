@@ -18,6 +18,9 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
+        .ison {
+          font-size: 30px;
+        }
         .user {
           img {
             width: 30px;

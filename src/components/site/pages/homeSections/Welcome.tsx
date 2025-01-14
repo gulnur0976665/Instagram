@@ -2,10 +2,8 @@
 import { FC } from "react";
 import scss from "./Welcome.module.scss";
 import { usePostGetAllQuery } from "@/redux/api/post";
-import Category from "../category/Category";
 import UserAll from "./UserAll";
 import HomePost from "./HomePost";
-import { useRouter } from "next/navigation";
 import { useGetMeQuery } from "@/redux/api/auth";
 
 const Welcome: FC = () => {

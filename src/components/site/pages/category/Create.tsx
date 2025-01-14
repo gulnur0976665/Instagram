@@ -15,11 +15,19 @@ const Create: FC = () => {
   const [postCreateMutation] = usePostCreateMutation();
 
   const sentTodo: SubmitHandler<POST.PostCreateRequest> = async (data) => {
+    if (!data.file?.[0]) {
+      console.error("Файл тандалган жок!");
+      return;
+    }
     const selectedFile = data.file![0];
     const formData = new FormData();
     formData.append("file", selectedFile);
     try {
       const { data: file } = await uploadFileMutation(formData);
+      if (!file?.url) {
+        console.error("Файл жүктөлгөн жок!");
+        return;
+      }
       const newPost: POST.PostCreateRequest = {
         caption: data.caption,
         mediaType: data.mediaType,
@@ -30,7 +38,7 @@ const Create: FC = () => {
       reset();
       setModalWindow(false);
     } catch (error) {
-      console.error(error);
+      console.error("Файл жүктөөдө ката чыкты:", error);
     }
   };
 

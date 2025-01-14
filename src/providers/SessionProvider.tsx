@@ -15,20 +15,28 @@ export const SessionProvider: FC<SessionProviderProps> = ({ children }) => {
 
   const handleRefreshToken = async () => {
     if (typeof window !== "undefined") {
-      const localStorageData = JSON.parse(localStorage.getItem("tokens")!);
-      if (localStorageData === "undefined" || localStorageData === undefined) {
+      const localStorageData = localStorage.getItem("tokens");
+
+      if (!localStorageData || localStorageData === "undefined") {
         localStorage.removeItem("tokens");
+        return;
       }
-      if (localStorageData) {
-        const { accessTokenExpiration, refreshToken } = localStorageData;
-        if (accessTokenExpiration < new Date().getTime()) {
-          localStorage.removeItem("tokens");
+
+      const parsedData = JSON.parse(localStorageData);
+      const { accessTokenExpiration, refreshToken } = parsedData;
+
+      if (accessTokenExpiration < new Date().getTime()) {
+        localStorage.removeItem("tokens");
+
+        try {
           const { data } = await refreshTokenMutation({ refreshToken });
           localStorage.setItem("tokens", JSON.stringify(data));
           window.location.reload();
-        } else {
-          console.log("refreshToken активдүү!");
+        } catch (error) {
+          console.error("Токенди жаңыртуу ката кетти: ", error);
         }
+      } else {
+        console.log("refreshToken активдүү!");
       }
     }
   };

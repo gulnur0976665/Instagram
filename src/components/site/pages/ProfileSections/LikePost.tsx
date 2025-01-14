@@ -18,10 +18,15 @@ const LikePost: FC<LikePostProps> = ({ postId }) => {
   const { data } = useGetLikeQuery(postId);
 
   const postLike = async () => {
-    if (data?.isLike) {
-      await postUnLikeMutation({ postId });
-    } else {
-      await postLikeMutation({ postId });
+    if (!data) return;
+    try {
+      if (data.isLike) {
+        await postUnLikeMutation({ postId });
+      } else {
+        await postLikeMutation({ postId });
+      }
+    } catch (error) {
+      console.error("Error while liking/unliking post", error);
     }
   };
 
@@ -29,14 +34,11 @@ const LikePost: FC<LikePostProps> = ({ postId }) => {
     <section className={scss.LikePost}>
       <div className="container">
         <div className={scss.content}>
-          <>
-            {data?.isLike ? (
-              <FaHeart onClick={postLike} className={scss.icon}/>
-            ) : (
-              <FaRegHeart onClick={postLike} className={scss.iconReg}/>
-            )}
-          </>
-
+          {data?.isLike ? (
+            <FaHeart onClick={postLike} className={scss.icon} />
+          ) : (
+            <FaRegHeart onClick={postLike} className={scss.iconReg} />
+          )}
         </div>
       </div>
     </section>

@@ -205,7 +205,6 @@
       height: 150vh;
       max-width: 500px;
       max-height: 500px;
-      border: 2px solid white;
 
       img,
       .video {
@@ -255,7 +254,6 @@
       height: 150vh;
       max-width: 600px;
       max-height: 600px;
-      border: 2px solid white;
 
       img,
       .video {
@@ -304,7 +302,6 @@
       height: 150vh;
       max-width: 600px;
       max-height: 600px;
-      border: 2px solid white;
 
       img,
       .video {
@@ -353,7 +350,6 @@
       height: 150vh;
       max-width: 600px;
       max-height: 600px;
-      border: 2px solid white;
 
       img,
       .video {
@@ -402,7 +398,6 @@
       height: 150vh;
       max-width: 600px;
       max-height: 550px;
-      border: 2px solid white;
 
       img,
       .video {
@@ -438,20 +433,18 @@
 }
 @media (max-width: 428px) {
   .modalWindow {
-    top: 30px;
-    left: 3.5pc;
-    width: 40%;
+    top: 22px;
+    left: 3pc;
+    width: 48%;
     flex-direction: column;
     .bg {
-      height: auto;
-      width: 40%;
+      display: none;
     }
     .modalMediaType {
       width: 150vw;
       height: 150vh;
       max-width: 400px;
       max-height: 400px;
-      border: 2px solid white;
 
       img,
       .video {
@@ -474,14 +467,14 @@
         }
         .threeBlock {
           .icons {
-            width: 200px;
+            width: 350px;
           }
         }
       }
     }
     a {
       top: 30px;
-      right: -160px;
+      right: -140px;
     }
   }
 }
@@ -531,6 +524,26 @@
     a {
       top: 25px;
       right: -160px;
+    }
+  }
+}
+@media (max-width: 360px) {
+  .modalWindow {
+    top: 10px;
+    width: 40%;
+    height: auto;
+    .modalText {
+      .textAll {
+        .threeBlock {
+          .icons {
+            width: 300px;
+          }
+        }
+      }
+    }
+    a {
+      top: 20px;
+      right: -140px;
     }
   }
 }

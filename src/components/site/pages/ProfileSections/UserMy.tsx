@@ -1,9 +1,8 @@
 "use client";
-import { FC, useEffect, useState } from "react";
+import { FC, useState } from "react";
 import scss from "./UserMy.module.scss";
 import { useGetMeQuery, useLogoutMutation } from "@/redux/api/auth";
 import { PiGridNine, PiPlus } from "react-icons/pi";
-import { BiMoviePlay } from "react-icons/bi";
 import { BsPersonVideo } from "react-icons/bs";
 import Link from "next/link";
 import { IoIosSettings } from "react-icons/io";
@@ -13,6 +12,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { useUploadFileMutation } from "@/redux/api/upload";
 import { IoBookmarkOutline, IoCloseOutline } from "react-icons/io5";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 interface IUpDateProps {
   file?: string[];
@@ -25,7 +25,7 @@ interface IProfileProps {
 }
 const UserMy: FC<IProfileProps> = ({ page, setPage }) => {
   const router = useRouter();
-  const { data, isLoading, isSuccess } = useGetMeQuery();
+  const { data } = useGetMeQuery();
   const { data: posts } = usePostGetMyQuery();
   const { register, handleSubmit, setValue, reset } = useForm<IUpDateProps>();
   const [updateProfileMutation] = useUpdateProfileMutation();
@@ -33,6 +33,7 @@ const UserMy: FC<IProfileProps> = ({ page, setPage }) => {
   const [edit, setEdit] = useState<boolean>(false);
   const [setting, setSetting] = useState<boolean>(false);
   const [logoutMutation] = useLogoutMutation();
+
   const handleUpdate: SubmitHandler<IUpDateProps> = async (data) => {
     const selectedFile = data.file![0];
     const formData = new FormData();
@@ -70,7 +71,7 @@ const UserMy: FC<IProfileProps> = ({ page, setPage }) => {
           <div className={scss.profile}>
             <div className={scss.left}>
               <div className={scss.image}>
-                <img
+                <Image
                   width={180}
                   height={180}
                   src={data?.profile?.photo!}
