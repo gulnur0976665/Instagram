@@ -1,12 +1,16 @@
-"use client";
+import { GetServerSideProps } from "next";
 import { FC } from "react";
 import scss from "./Reset.module.scss";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useResetPasswordMutation } from "@/redux/api/auth";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { HiOutlineLockClosed } from "react-icons/hi2";
 
-const Reset: FC = () => {
+interface ResetPageProps {
+  token: string | null;
+}
+
+const Reset: FC<ResetPageProps> = ({ token }) => {
   const {
     register,
     handleSubmit,
@@ -14,8 +18,6 @@ const Reset: FC = () => {
   } = useForm<AUTH.PatchResetPasswordRequest>();
   const router = useRouter();
   const [resetPasswordMutation] = useResetPasswordMutation();
-  const searchParams = useSearchParams();
-  const token = searchParams.get("token") || "";
 
   const onSubmit: SubmitHandler<AUTH.PatchResetPasswordRequest> = async (
     data
@@ -67,6 +69,19 @@ const Reset: FC = () => {
       </div>
     </section>
   );
+};
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const token = context.query.token || null;
+  if (!token) {
+    return { notFound: true };
+  }
+
+  return {
+    props: {
+      token,
+    },
+  };
 };
 
 export default Reset;
