@@ -1,9 +1,10 @@
-import { FC, Suspense } from "react";
+"use client";
+import { FC } from "react";
+import scss from "./Reset.module.scss";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useResetPasswordMutation } from "@/redux/api/auth";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { HiOutlineLockClosed } from "react-icons/hi2";
-import scss from "./Reset.module.scss";
 
 const Reset: FC = () => {
   const {
@@ -13,26 +14,8 @@ const Reset: FC = () => {
   } = useForm<AUTH.PatchResetPasswordRequest>();
   const router = useRouter();
   const [resetPasswordMutation] = useResetPasswordMutation();
-
-  return (
-    <Suspense fallback={<div>Жүктөлүүдө...</div>}>
-      <ResetForm />
-    </Suspense>
-  );
-};
-
-const ResetForm = () => {
   const searchParams = useSearchParams();
   const token = searchParams.get("token") || "";
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<AUTH.PatchResetPasswordRequest>();
-
-  const router = useRouter();
-  const [resetPasswordMutation] = useResetPasswordMutation();
 
   const onSubmit: SubmitHandler<AUTH.PatchResetPasswordRequest> = async (
     data
