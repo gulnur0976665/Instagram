@@ -8,11 +8,13 @@ const baseQuery = fetchBaseQuery({
   baseUrl: `${process.env.NEXT_PUBLIC_API_URL}`,
   prepareHeaders: (headers) => {
     try {
-      const localStorageData = localStorage.getItem("tokens");
-      if (localStorageData) {
-        const { accessToken } = JSON.parse(localStorageData);
-        if (accessToken) {
-          headers.set("Authorization", `Bearer ${accessToken}`);
+      if (typeof window !== "undefined") {
+        const localStorageData = localStorage.getItem("tokens");
+        if (localStorageData) {
+          const { accessToken } = JSON.parse(localStorageData);
+          if (accessToken) {
+            headers.set("Authorization", `Bearer ${accessToken}`);
+          }
         }
       }
     } catch (error) {

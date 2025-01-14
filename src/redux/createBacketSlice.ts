@@ -1,7 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  backet: JSON.parse(localStorage.getItem("backet") || "[]"),
+  backet:
+    typeof window !== "undefined"
+      ? JSON.parse(localStorage.getItem("backet") || "[]")
+      : [],
 };
 
 export const CreateBacketSlice = createSlice({
@@ -11,7 +14,10 @@ export const CreateBacketSlice = createSlice({
     addToBacket(state, action) {
       const backet = [...state.backet, action.payload];
       state.backet = backet;
-      localStorage.setItem("backet", JSON.stringify(backet));
+
+      if (typeof window !== "undefined") {
+        localStorage.setItem("backet", JSON.stringify(backet));
+      }
     },
     deleteBacket(state, action) {
       const id = action.payload;
@@ -23,7 +29,10 @@ export const CreateBacketSlice = createSlice({
         (el: { id: number }) => el.id !== id
       );
       state.backet = filterBacket;
-      localStorage.setItem("backet", JSON.stringify(filterBacket));
+
+      if (typeof window !== "undefined") {
+        localStorage.setItem("backet", JSON.stringify(filterBacket));
+      }
     },
   },
 });

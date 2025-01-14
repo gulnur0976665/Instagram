@@ -699,4 +699,40 @@
       }
     }
   }
+  @media (max-width: 391px) {
+    left: 0;
+    .content {
+      margin-bottom: 80px;
+      .mediaContainer {
+        img {
+          width: 110px;
+          height: 150px;
+          object-fit: cover;
+        }
+        video {
+          width: 110px;
+          height: 150px;
+          object-fit: cover;
+        }
+      }
+      .modalWindow {
+        top: 10px;
+        width: 40%;
+        height: auto;
+        .modalText {
+          .textAll {
+            .threeBlock {
+              .icons {
+                width: 300px;
+              }
+            }
+          }
+        }
+        a {
+          top: 20px;
+          right: -140px;
+        }
+      }
+    }
+  }
 }

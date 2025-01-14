@@ -13,52 +13,68 @@ export const SessionProvider: FC<SessionProviderProps> = ({ children }) => {
   const pathname = usePathname();
   const router = useRouter();
 
-  const handleRefreshToken = async () => {
+  // localStorage маалыматтарын алуу
+  const getTokens = () => {
     if (typeof window !== "undefined") {
       const localStorageData = localStorage.getItem("tokens");
+      return localStorageData ? JSON.parse(localStorageData) : null;
+    }
+    return null;
+  };
 
-      if (!localStorageData || localStorageData === "undefined") {
-        localStorage.removeItem("tokens");
-        return;
-      }
-
-      const parsedData = JSON.parse(localStorageData);
-      const { accessTokenExpiration, refreshToken } = parsedData;
-
-      if (accessTokenExpiration < new Date().getTime()) {
-        localStorage.removeItem("tokens");
-
-        try {
-          const { data } = await refreshTokenMutation({ refreshToken });
-          localStorage.setItem("tokens", JSON.stringify(data));
-          window.location.reload();
-        } catch (error) {
-          console.error("Токенди жаңыртуу ката кетти: ", error);
-        }
-      } else {
-        console.log("refreshToken активдүү!");
-      }
+  const setTokens = (data: any) => {
+    if (typeof window !== "undefined") {
+      localStorage.setItem("tokens", JSON.stringify(data));
     }
   };
 
+  const removeTokens = () => {
+    if (typeof window !== "undefined") {
+      localStorage.removeItem("tokens");
+    }
+  };
+
+  // Токенди жаңыртуу
+  const handleRefreshToken = async () => {
+    const tokens = getTokens();
+    if (!tokens) {
+      removeTokens();
+      return;
+    }
+
+    const { accessTokenExpiration, refreshToken } = tokens;
+    const isTokenExpired = accessTokenExpiration < new Date().getTime();
+
+    if (isTokenExpired) {
+      removeTokens();
+      try {
+        const { data } = await refreshTokenMutation({ refreshToken });
+        setTokens(data);
+        window.location.reload();
+      } catch (error) {
+        console.error("Токенди жаңыртууда ката кетти: ", error);
+      }
+    } else {
+      console.log("Токендер активдүү!");
+    }
+  };
+
+  // Навигацияны башкаруу
   const handleNavigation = () => {
-    switch (pathname) {
-      case "/auth/sign-in":
-      case "/auth/sign-up":
-      case "/auth/reset-password":
-      case "/auth/forgot":
-        if (status === "fulfilled") {
-          router.push("/");
-        }
-        break;
-      case "/":
-      case "/profile":
-        if (status === "rejected") {
-          router.push("/auth/sign-in");
-        }
-        break;
-      default:
-        break;
+    const authPaths = [
+      "/auth/sign-in",
+      "/auth/sign-up",
+      "/auth/reset-password",
+      "/auth/forgot",
+    ];
+    const protectedPaths = ["/", "/profile"];
+
+    if (authPaths.includes(pathname) && status === "fulfilled") {
+      router.push("/");
+    }
+
+    if (protectedPaths.includes(pathname) && status === "rejected") {
+      router.push("/auth/sign-in");
     }
   };
 
@@ -68,7 +84,7 @@ export const SessionProvider: FC<SessionProviderProps> = ({ children }) => {
 
   useEffect(() => {
     handleNavigation();
-  }, [status, pathname, router]);
+  }, [status, pathname]);
 
   return <>{children}</>;
 };
