@@ -2,7 +2,7 @@ import { FC } from "react";
 import Reset from "./ResetSections/Reset";
 
 interface ResetPageProps {
-  token: string | null;
+  token: string;
 }
 
 const ResetPage: FC<ResetPageProps> = ({ token }) => {

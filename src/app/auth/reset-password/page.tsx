@@ -1,25 +1,27 @@
-import { GetServerSideProps } from "next";
+"use client";
+
+import { useState, useEffect } from "react";
 import ResetPage from "@/components/auth/pages/ReserPage";
 
-interface PageProps {
-  token: string | null;
-}
+const Page = () => {
+  const [token, setToken] = useState<string | null>(null);
 
-const Page = ({ token }: PageProps) => {
-  return <ResetPage token={token} />;
-};
+  useEffect(() => {
+    const fetchToken = async () => {
+      const response = await fetch(
+        "/api/token?token=" + window.location.search
+      );
+      const data = await response.json();
+      setToken(data.token);
+    };
+    fetchToken();
+  }, []);
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const token = context.query.token || null;
   if (!token) {
-    return { notFound: true };
+    return <div>Loading...</div>;
   }
 
-  return {
-    props: {
-      token,
-    },
-  };
+  return <ResetPage token={token} />;
 };
 
 export default Page;
