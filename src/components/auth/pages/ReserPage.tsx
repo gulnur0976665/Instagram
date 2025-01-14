@@ -1,10 +1,12 @@
+import { FC } from "react";
 import Reset from "./ResetSections/Reset";
-const ReserPage = () => {
-  return (
-    <>
-      <Reset token={null} />
-    </>
-  );
+
+interface ResetPageProps {
+  token: string | null;
+}
+
+const ResetPage: FC<ResetPageProps> = ({ token }) => {
+  return <Reset token={token} />;
 };
 
-export default ReserPage;
+export default ResetPage;

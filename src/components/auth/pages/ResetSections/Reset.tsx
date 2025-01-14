@@ -1,4 +1,5 @@
-import { GetServerSideProps } from "next";
+"use client";
+
 import { FC } from "react";
 import scss from "./Reset.module.scss";
 import { useRouter } from "next/navigation";
@@ -69,19 +70,6 @@ const Reset: FC<ResetPageProps> = ({ token }) => {
       </div>
     </section>
   );
-};
-
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const token = context.query.token || null;
-  if (!token) {
-    return { notFound: true };
-  }
-
-  return {
-    props: {
-      token,
-    },
-  };
 };
 
 export default Reset;
