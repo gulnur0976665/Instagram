@@ -1,16 +1,11 @@
-"use client";
-import { FC } from "react";
-import scss from "./Reset.module.scss";
+import { FC, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useResetPasswordMutation } from "@/redux/api/auth";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { HiOutlineLockClosed } from "react-icons/hi2";
-import dynamic from "next/dynamic";
+import scss from "./Reset.module.scss";
 
-// Динамикалык импортту колдонобуз
-const Reset = dynamic(() => import("./Reset"), { ssr: false });
-
-const ResetPasswordForm: FC = () => {
+const Reset: FC = () => {
   const {
     register,
     handleSubmit,
@@ -18,14 +13,32 @@ const ResetPasswordForm: FC = () => {
   } = useForm<AUTH.PatchResetPasswordRequest>();
   const router = useRouter();
   const [resetPasswordMutation] = useResetPasswordMutation();
+
+  return (
+    <Suspense fallback={<div>Жүктөлүүдө...</div>}>
+      <ResetForm />
+    </Suspense>
+  );
+};
+
+const ResetForm = () => {
   const searchParams = useSearchParams();
   const token = searchParams.get("token") || "";
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<AUTH.PatchResetPasswordRequest>();
+
+  const router = useRouter();
+  const [resetPasswordMutation] = useResetPasswordMutation();
 
   const onSubmit: SubmitHandler<AUTH.PatchResetPasswordRequest> = async (
     data
   ) => {
     if (!token) {
-      alert("Token not found");
+      alert("Токен табылган жок");
       return;
     }
 
@@ -52,20 +65,20 @@ const ResetPasswordForm: FC = () => {
             <a>
               <HiOutlineLockClosed />
             </a>
-            <p>Reset-password</p>
+            <p>Паролду жаңыртуу</p>
             <input
-              placeholder="new password"
+              placeholder="Жаңы пароль"
               type="password"
               {...register("newPassword", {
                 required: true,
                 minLength: {
                   value: 6,
-                  message: "Пароль 6 символдон болбошу керек",
+                  message: "Пароль 6 символдон кыска болбошу керек",
                 },
               })}
             />
-            {errors.newPassword && <p>{errors.newPassword.message}</p>}{" "}
-            <button type="submit">Сбросить пароль</button>
+            {errors.newPassword && <p>{errors.newPassword.message}</p>}
+            <button type="submit">Парольду жаңыртуу</button>
           </form>
         </div>
       </div>
@@ -73,5 +86,4 @@ const ResetPasswordForm: FC = () => {
   );
 };
 
-// Динамикалык импортуңузду негизги компонентиңизге кайтаруу
-export default ResetPasswordForm;
+export default Reset;
